@@ -1,30 +1,29 @@
-import './App.css';
-import BookCreate from './components/BookCreate';
-import BookList from './components/BookList';
-import BookEdit from './components/BookEdit';
-import BookShow from './components/BookShow';
-import {useState} from 'react';
-import bookCreate from './components/BookCreate';
-
+import BookCreate from "./components/BookCreate";
+import BookList from "./components/BookList";
+import { useState } from "react";
 
 function App() {
-	const [books, setBooks] = useState([{id: Number, title: ''}]);
+  const [books, setBooks] = useState([]);
 
-	const createBook = title => {
-		setBooks([...books, {id: Number, title: title}]);
-	};
+  const createBook = (title) => {
+    const updateBooks = () => {
+      return [...books, { id: Math.round((Math.random() * 1000) / 2), title }];
+    };
+    setBooks(updateBooks);
+  };
+  const deleteBookById = (id) => {
+    const updatedBook = books.filter((book) => {
+      return book.id !== id;
+    });
+    setBooks(updatedBook);
+  };
 
-	return (
-		<div>
-			{/*passes createBook function to BookCreate.
-			BookCreate gives back user input for App.js to store in "books" state*/}
-			<BookCreate onCreate={createBook}/>
-			{/*Map books state & display on screen*/}
-			{books.map((book, id) =>
-				<div key={id}><p>{book.title}</p></div>)}
-		</div>
-	);
+  return (
+    <div className="app">
+      <BookCreate onCreate={createBook} />
+      <BookList books={books} onDelete={deleteBookById} />
+    </div>
+  );
 }
 
 export default App;
-
