@@ -3,9 +3,6 @@ import { useState } from "react";
 function BookCreate({ onCreate }) {
   const [title, setTitle] = useState("");
 
-  const handleChange = (event) => {
-    setTitle(event.target.value);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     onCreate(title);
@@ -22,7 +19,7 @@ function BookCreate({ onCreate }) {
           type="text"
           placeholder="Enter Book Name"
           value={title}
-          onChange={handleChange}
+          onChange={(event) => setTitle(event.target.value)}
         />
         <button className="button">Create</button>
       </form>
