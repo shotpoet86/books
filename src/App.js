@@ -10,24 +10,27 @@ function App() {
     const response = await axios.get("http://localhost:3001/books");
     setBooks(response.data);
   };
-
   useEffect(() => {
     return () => {
-      fetchBooks().then((r) => r.json);
+      fetchBooks();
     };
   }, []);
+  const editBookById = async (id, newTitle) => {
+    const response = await axios.put(`http://localhost:3001/books/${id}`, {
+      title: newTitle,
+    });
 
-  const editBookById = (id, newTitle) => {
     const updatedBooks = books.map((book) => {
       if (book.id === id) {
-        return { ...book, title: newTitle };
+        return { ...book, ...response.data };
       }
       return book;
     });
     setBooks(updatedBooks);
   };
 
-  const deleteBookById = (id) => {
+  const deleteBookById = async (id) => {
+    await axios.delete(`http://localhost:3001/books/${id}`);
     const updatedBook = books.filter((book) => book.id !== id);
     setBooks(updatedBook);
   };
