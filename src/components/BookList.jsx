@@ -1,9 +1,16 @@
+import { useContext } from "react";
+import BooksContext from "../context/books";
 import BookShow from "./BookShow";
+function BookList() {
+  /*Receive books from context */
+  const { books } = useContext(BooksContext);
 
-function BookList({ books, onDelete, onEdit }) {
+  /*map through books and send results to BookShow component via props
+   * to display on screen*/
   const renderedBooks = books.map((book) => (
-    <BookShow onDelete={onDelete} onEdit={onEdit} key={book.id} book={book} />
+    <BookShow key={book.id} book={book} />
   ));
+
   return (
     <div className="book-list">
       {/*Map books state & display on screen*/}
